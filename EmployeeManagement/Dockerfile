@@ -6,7 +6,7 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:17-jdk
 
-COPY --from=build /target/EmployeeCrud.jar EmployeeCrud.jar
+COPY --from=build /app/target/EmployeeCrud.jar EmployeeCrud.jar
 
 EXPOSE 8080
 
