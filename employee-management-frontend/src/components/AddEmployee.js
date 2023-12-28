@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import EmployeeService from "../services/EmployeeService";
 
 const AddEmployee = () => {
+  const [loading,setLoading] = useState(false);
   const [employee, setEmployee] = useState({
     id: "",
     firstName: "",
@@ -19,13 +20,16 @@ const AddEmployee = () => {
 
   const saveEmployee = (e) => {
     e.preventDefault();
+    setLoading(true);
     EmployeeService.saveEmployee(employee)
-      .then((response) => {
-        console.log(response);
-        navigaye("/employeeList");
-      })
-      .catch((error) => {
-        console.log(error);
+    .then((response) => {
+      console.log(response);
+      navigaye("/employeeList");
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.log(error);
+      setLoading(false);
       });
   };
 
@@ -40,7 +44,7 @@ const AddEmployee = () => {
   };
 
   return (
-    <div className="flex max-w-2xl mx-auto shadow border-b">
+    (loading ? <p className="textb">loading</p>:(<div className="flex max-w-2xl mx-auto shadow border-b">
       <div className="px-8 py-8">
         <div className="font-thin text-2xl tracking-wider">
           <h1>Add New Employee</h1>
@@ -92,7 +96,7 @@ const AddEmployee = () => {
           </button>
         </div>
       </div>
-    </div>
+    </div>))
   );
 };
 

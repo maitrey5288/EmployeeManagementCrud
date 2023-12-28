@@ -12,9 +12,11 @@ const EmployeeList = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      console.log("here")
       try {
         const response = await EmployeeService.getEmployees();
         setEmployees(response.data);
+        console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -25,17 +27,19 @@ const EmployeeList = () => {
 
   const deleteEmployee = (e, id) => {
     e.preventDefault();
+    setLoading(true);
     EmployeeService.deleteEmployee(id).then((res) => {
       if (employees) {
         setEmployees((prevElement) => {
           return prevElement.filter((employee) => employee.id !== id);
         });
       }
+    setLoading(false);
     });
   };
 
   return (
-    <div className="container mx-auto my-8">
+    (loading ? <p>Loading</p> : <div className="container mx-auto my-8">
       <div className="h-12">
         <button
           onClick={() => navigate("/addEmployee")}
@@ -73,7 +77,7 @@ const EmployeeList = () => {
           )}
         </table>
       </div>
-    </div>
+    </div>)
   );
 };
 

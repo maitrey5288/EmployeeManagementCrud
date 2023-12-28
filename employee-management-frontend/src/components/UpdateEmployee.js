@@ -5,13 +5,14 @@ import EmployeeService from "../services/EmployeeService";
 const UpdateEmployee = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const[loading,setLoading] = useState(false);
   const [employee, setEmployee] = useState({
     id: id,
     firstName: "",
     lastName: "",
     emailId: "",
   });
-
+ 
   const handleChange = (e) => {
     const value = e.target.value;
     setEmployee({ ...employee, [e.target.name]: value });
@@ -19,30 +20,36 @@ const UpdateEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await EmployeeService.getEmployeeById(employee.id);
         setEmployee(response.data);
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetchData();
   }, []);
 
   const updateEmployee = (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log(employee);
     EmployeeService.updateEmployee(employee, id)
       .then((response) => {
+        setLoading(false);
         navigate("/employeeList");
+
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
   return (
-    <div className="flex max-w-2xl mx-auto shadow border-b">
+   (loading ? <p>Loading</p> :<div className="flex max-w-2xl mx-auto shadow border-b">
       <div className="px-8 py-8">
         <div className="font-thin text-2xl tracking-wider">
           <h1>Update Employee</h1>
@@ -94,7 +101,7 @@ const UpdateEmployee = () => {
           </button>
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 
