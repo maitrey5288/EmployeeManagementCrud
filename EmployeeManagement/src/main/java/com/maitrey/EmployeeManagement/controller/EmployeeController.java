@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://employee-management-crud-theta.vercel.app/")
 @RestController
 @RequestMapping("/api/v1/")
 public class EmployeeController {
